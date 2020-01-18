@@ -1,0 +1,75 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <div class="form" style="overflow: hidden;">
+        <form  [formGroup]="data" name="data">
+            <!-- name -->
+            <div class="form-group">
+              <label>Name</label>
+              <input type="text" class="form-control" name="name" formControlName="Name" [(ngModel)]=Name id="name" placeholder="ex:velu">
+            </div>
+            <!-- error message -->
+            <div class="text-danger " *ngIf="this.data.controls.Name.invalid &&(this.data.controls.Name.touched||this.data.controls.Name.dirty)">
+            <small class="text-danger" *ngIf="!this.data.controls.Name.valid">Name of the Vendorr is required </small>
+          </div>
+
+           <!-- email -->
+           <div class="form-group">
+            <label for="email">Email address:</label>
+            <input type="email" class="form-control"  formControlName="email" [(ngModel)]=email placeholder="ex:abc@gmail.com" >
+          </div>
+          <!-- error message -->
+          <div class="text-danger " *ngIf="this.data.controls.email.invalid &&(this.data.controls.email.touched||this.data.controls.email.dirty)">
+          <small class="text-danger" *ngIf="!this.data.controls.email.valid">email of the Vendorr is required </small>
+        </div>
+
+          <!-- password -->
+          <div class="form-group">
+            <label for="pwd">Password:</label>
+            <input type="password" class="form-control"  formControlName="password" [(ngModel)]=pass placeholder="ex:12333">
+          </div>
+          <!-- error message -->
+          <div class="text-danger " *ngIf="this.data.controls.password.invalid &&(this.data.controls.password.touched||this.data.controls.password.dirty)">
+          <small class="text-danger" *ngIf="!this.data.controls.password.valid">Name of the Vendorr is required </small>
+        </div>
+            <!-- submit button -->
+        <input type="submit" class="btn btn-primary" *ngIf="this.data.valid" (click)=add() >
+      </form>
+
+
+      </div>
+    </div>
+    <div class="col">
+
+      <table class="table">
+        <thead class="table-dark">
+          <tr>
+            <th scope="col">Serial.no</th>
+            <th scope="col">Name</th>
+            <th scope="col">Price</th>
+            <th scope="col">Rating</th>
+            <th>delete product</th>
+            <th>Edit product</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let card of cards;let itx =index;">
+            <th scope="row">{{itx+1}}</th>
+            <td>{{card.Name}}</td>
+            <td>{{card.email}}</td>
+            <td>{{card.password}}</td>
+            <td><button class="btn btn-dark" (click)="del(card._id)" > del emp</button></td>
+            <td><button class="btn btn-dark" (click)="up(card._id)" > update emp</button></td>
+          </tr>
+        </tbody>
+
+</table>
+
+    </div>
+  </div>
+</div>
+    
+
+
+
+
