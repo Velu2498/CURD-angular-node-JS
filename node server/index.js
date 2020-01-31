@@ -15,8 +15,10 @@ app.use(bodyp.json());
 
 
 //getting data from form & post to data base
-app.post('/data',function(req,res){
+app.post('/data/:email',function(req,res){
 
+    email=req.params.email
+    console.log(email)
     mongoclient.connect(url, function(err, client) {
       if (err) throw err;
 
@@ -24,16 +26,37 @@ app.post('/data',function(req,res){
 
       db=client.db("myemployee")
 
-      db.collection("employee").insertOne(req.body,(err,data)=>{
+      // db.collection("employee").insertOne(req.body,(err,data)=>{
+      //   if (err) throw err;
+
+      //   // console.log(data)
+
+      //   res.json({"mess":"inserted data in data base"})
+
+      // })
+
+      db.collection("employee").findOne( { email:email} ,function(err, result) {
         if (err) throw err;
+        console.log(result);
+        if(result) {
+          res.json({"mess":"mail ID already registered"})
+     
+        }
+        else{
+          db.collection("employee").insertOne(req.body,(err,data)=>{
+            if (err) throw err;
+    
+            // console.log(data)
+    
+            res.json({"mess":"inserted data in data base"})
+    
+          }
+        )
+        }
+       
+      });
 
-        // console.log(data)
-
-        res.json({"mess":"inserted data in data base"})
-
-      }
-    )
-        client.close()
+        // client.close()
 
     });
 })
@@ -60,6 +83,34 @@ app.get('/details',function(req,res){
 
 
 //update data from data base
+app.put('/setval/:id',function(req,res){
+
+  mongoclient.connect(url, function(err, client) {
+    if (err) throw err;
+
+    id=req.params.id
+
+    // console.log(id)
+
+    db=client.db("myemployee")
+
+    db.collection("employee").findOne( { _id: new mongodb.ObjectId(id)} ,function(err, result) {
+      if (err) throw err;
+      // console.log(result);
+      res.json(result)
+    });
+
+    // db.collection("employee").updateOne({ _id: new mongodb.ObjectId(id)},{ $set: req.body}, function(err, obj) {
+    //   // {_id: "ObjectId("+id+")"}
+    //   if (err) throw err;
+    //   console.log(`matched count ${obj.matchedCount} ,modified count ${obj.modifiedCount}`)
+    // })
+      client.close()
+
+  });
+})
+
+//update data from data base
 app.put('/update/:id',function(req,res){
 
   mongoclient.connect(url, function(err, client) {
@@ -71,12 +122,13 @@ app.put('/update/:id',function(req,res){
 
     db=client.db("myemployee")
 
-    db.collection("employee").updateOne({ _id: new mongodb.ObjectId(id)},{ $set: req.body}, function(err, obj) {
+    db.collection("employee").updateOne({ email: id },{ $set: req.body}, function(err, obj) {
       // {_id: "ObjectId("+id+")"}
       if (err) throw err;
       console.log(`matched count ${obj.matchedCount} ,modified count ${obj.modifiedCount}`)
     })
-      client.close()
+
+    client.close()
 
   });
 })
