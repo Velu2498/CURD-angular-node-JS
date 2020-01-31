@@ -40,10 +40,6 @@ export class EmployeeComponent implements OnInit {
   password: new FormControl('',[Validators.required,, Validators.pattern('^[0-9+]*'), Validators.maxLength(10)]),
 });
 
-ngOnChanges(){
-  console.log("updated from onchanges in form")
-}
-
 //insert the value to database
 add(email){
   console.log(email)
@@ -51,13 +47,16 @@ add(email){
     this.http.post("http://localhost:3000/data/"+email,this.data.value)
     .subscribe(
       (data:any)=>{
-      alert(data.mess);
+      if(data.mess=="inserted data in data base"){
+        location.reload();
+      }
+      else  alert(data.mess);
       // console.log(data)
     }, error => {
         console.log(error);
     }
     )
-    location.reload();
+  
     // console.log(this.data.valid)
     // console.log(this.data.controls.Name.valid)
 
@@ -94,12 +93,15 @@ add(email){
     this.http.put("http://localhost:3000/update/"+id,this.data.value)
     .subscribe(
       (data:any)=>{
-      // alert(data.Name);
+      if(data.mess=="updated sucessfully"){
+        location.reload();
+      }
+      else    alert(data.mess);
     }, error => {
         console.log(error);
     }
     )
-    location.reload();
+
   }
 
 }

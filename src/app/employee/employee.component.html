@@ -10,7 +10,7 @@
             </div>
             <!-- error message -->
             <div class="text-danger " *ngIf="this.data.controls.Name.invalid &&(this.data.controls.Name.touched||this.data.controls.Name.dirty)">
-            <small class="text-danger" *ngIf="!this.data.controls.Name.valid">Name of the employee is required </small>
+            <small class="text-danger" *ngIf="!this.data.controls.Name.valid">Enter a valid Name</small>
           </div>
 
            <!-- email -->
@@ -20,7 +20,7 @@
           </div>
           <!-- error message -->
           <div class="text-danger " *ngIf="this.data.controls.email.invalid &&(this.data.controls.email.touched||this.data.controls.email.dirty)">
-          <small class="text-danger" *ngIf="!this.data.controls.email.valid">email of the employee is required </small>
+          <small class="text-danger" *ngIf="!this.data.controls.email.valid">Enter a valid Email </small>
         </div>
 
           <!-- password -->
@@ -30,7 +30,7 @@
           </div>
           <!-- error message -->
           <div class="text-danger " *ngIf="this.data.controls.password.invalid &&(this.data.controls.password.touched||this.data.controls.password.dirty)">
-          <small class="text-danger" *ngIf="!this.data.controls.password.valid">Name of the employee is required </small>
+          <small class="text-danger" *ngIf="!this.data.controls.password.valid">Enter a valid Number </small>
         </div>
             <!-- submit button -->
         <input type="submit" class="btn btn-primary" *ngIf="this.data.valid" id="submitbt" (click)=add(this.data.value.email) >
@@ -57,7 +57,8 @@
         <tbody>
           <tr *ngFor="let card of cards;let itx =index;">
             <th scope="row">{{itx+1}}</th>
-            <td>{{card.Name}}</td>
+            <td> {{card.Name}}</td> 
+            <!--{{Name}} -->
             <td>{{card.email}}</td>
             <td>{{card.password}}</td>
             <td><button class="btn btn-dark" (click)="del(card._id)" > del emp</button></td>
