@@ -41,7 +41,7 @@ export class EmployeeComponent implements OnInit {
 });
 
 //insert the value to database
-add(email){
+add(email: string){
   console.log(email)
   // console.log(this.data.value)
     this.http.post("http://localhost:3000/data/"+email,this.data.value)
@@ -62,14 +62,22 @@ add(email){
 
   }
 
-  del(id){
+  del(id: string){
   // console.log(id)
-  this.http.delete("http://localhost:3000/data/"+id)
+  // alert("do u really want to delete")
+  if(confirm("Are you sure to delete these data")) {
+    this.http.delete("http://localhost:3000/data/"+id)
   .subscribe()
   location.reload();
   }
+  // this.http.delete("http://localhost:3000/data/"+id)
+  // .subscribe()
+  // location.reload();
+  }
 
-  up(id){
+  updateval: boolean;
+
+  up(id: string){
     // console.log("http://localhost:3000/setval/"+id)
     // this.data.setValue(
     //   { Name: "velu", email: "Mohan@gmail.com", password: "12344"},
@@ -86,9 +94,12 @@ add(email){
     }
     )
     // location.reload();
+    // var bt=document.getElementById("submitbt")
+    // bt.setAttribute("onclick",`update(${id})`)
+     this.updateval=true;
   }
 
-  update(id){
+  update(id: string){
     console.log(id)
     this.http.put("http://localhost:3000/update/"+id,this.data.value)
     .subscribe(
@@ -96,12 +107,18 @@ add(email){
       if(data.mess=="updated sucessfully"){
         location.reload();
       }
-      else    alert(data.mess);
+      else  {  
+        // alert(data.mess);
+        if(confirm("do u want to create new data")) { 
+          this.add(id)
+        }
+
+      }
     }, error => {
         console.log(error);
     }
     )
-
+    this.updateval=false;
   }
 
 }
