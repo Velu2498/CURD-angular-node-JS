@@ -34,7 +34,8 @@ app.post("/data/:email", function(req, res) {
       if (result) {
         res.json({ mess: "mail ID already registered" });
         client.close();
-      } else {
+      } 
+      else {
         db.collection("employee").insertOne(req.body, (err, data) => {
           if (err) throw err;
 
